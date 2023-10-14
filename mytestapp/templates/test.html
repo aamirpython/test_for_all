@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>MCQ Quiz</title>
+  <link href="" rel="stylesheet" />
+  <link href="" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .unanswered {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #ccc;
+      color: #fff;
+      text-align: center;
+      line-height: 30px;
+      font-size: 16px;
+    }
+    .answered {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: green;
+      color: #fff;
+      text-align: center;
+      line-height: 30px;
+      font-size: 16px;
+    }
+    .visited {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: blue;
+      color: #fff;
+      text-align: center;
+      line-height: 30px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container mt-5">
+    <div class="timer">
+      <h2>Timer</h2>
+      <div id="timer"></div>
+      <!--<form id="submit-form" method="post">
+           exam questions here 
+          <button type="submit">Submit</button>
+      </form>-->
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <ul class="list-group">
+          <li class="list-group-item active">Questions</li>
+          <li class="list-group-item">
+            {% for b in abc %}
+
+          
+            {% if b.id in quenol %}
+            <a class="answered" href="/test/{{b.id}}">{{b.sno}}.</a>
+            {% elif b.id in quevis %}
+            <a class="visited" href="/test/{{b.id}}">{{b.sno}}.</a>
+            {% else %}
+            <a class="unanswered" href="/test/{{b.id}}">{{b.sno}}.</a>
+            {% endif %}
+            
+            {% endfor %}
+          </li>
+
+          <!-- add more items as needed -->
+        </ul>
+        <div>
+          <p>Total Questions = {{qcount}}</p>
+          {% if attcount %}
+          <p>Total Attempted = {{attcount}}</p>
+          {% else %}
+          <p>Total Attempted = 0</p>
+          {%endif%}
+
+
+        </div>
+      </div>
+      {% if qid %}
+      <div class="col-md-9">
+        <form action="/attempt_test/" method="post" id="myForm">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-2">
+                <div class="question-number bg-white p-3 border-bottom">
+                  <h3 class="text-danger">Q.{{qid.sno}}</h3>
+                  <input type="hidden" value="{{qid.id}}" name="queno">
+                  <input type="hidden" value="{{qid.id}}" name="queattempt_id">
+                  <input type="hidden" value="{{request.session["user_id"]}}" name="student_id">
+                  <input type="hidden" value="{{request.session["sub_id"]}}" name="sname_id">
+
+
+
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div class="question bg-white p-3 border-bottom">
+                  <div class="d-flex flex-row align-items-center question-title">
+                  <h5 class="mt-1">{{qid.que}}</h5>
+                    
+                  </div>
+                  
+                  <div class="ans ml-2">
+                    <label class="radio"> <input type="radio" name="ans" value="{{qid.opt1}}"
+                        onclick="uncheckOthers(this)" {% if aid.ans == qid.opt1 %}checked{% endif %}> <span>{{qid.opt1}}</span>
+                    </label>
+                  </div>
+                  <div class="ans ml-2">
+                    <label class="radio"> <input type="radio" name="ans" value="{{qid.opt2}}"
+                        onclick="uncheckOthers(this)" {% if aid.ans == qid.opt2 %}checked{% endif %}> <span>{{qid.opt2}}</span>
+                    </label>
+                  </div>
+                  <div class="ans ml-2">
+                    <label class="radio"> <input type="radio" name="ans" value="{{qid.opt3}}"
+                        onclick="uncheckOthers(this)" {% if aid.ans == qid.opt3 %}checked{% endif %}> <span>{{qid.opt3}}</span>
+                    </label>
+                  </div>
+                  <div class="ans ml-2">
+                    <label class="radio"> <input type="radio" name="ans" value="{{qid.opt4}}"
+                        onclick="uncheckOthers(this)" {% if aid.ans == qid.opt4 %}checked{% endif %}> <span>{{qid.opt4}}</span>
+                    </label>
+                    <script>
+                      function uncheckOthers(clickedRadio) {
+                        var radioButtons = document.getElementsByName("ans");
+                        document.getElementById("ans").value = radio.value;
+                        for (var i = 0; i < radioButtons.length; i++) {
+                          if (radioButtons[i] !== clickedRadio) {
+                            radioButtons[i].checked = false;
+                          }
+                        }
+                      }
+                    </script>
+
+
+
+
+
+                  </div>
+                </div>
+                <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white">
+                  {% if qid.id > 1 %}
+
+                  <a href="/test/{{qid.id-1}}"><button class="btn btn-primary d-flex align-items-center btn-danger"
+                      type="button">
+                      <i class="fa fa-angle-left mt-1 mr-1"></i>&nbsp;previous</button></a>
+                  {% endif %}
+
+                  {% if qid.id == qcount %}
+                  <a href="/test/"><button class="btn btn-primary border-success align-items-center btn-success"
+                    type="button">next
+                    <i class="fa fa-angle-right ml2"></i>&nbsp;</button></a>
+                    {% else %}
+                  <a href="/test/{{qid.id+1}}"><button class="btn btn-primary border-success align-items-center btn-success"
+                    type="button">next
+                    <i class="fa fa-angle-right ml-2"></i>&nbsp;</button></a>
+                    {% endif %}
+
+                  {% if qid.id < qcount %} <button class="btn btn-primary border-success align-items-center btn-success"
+                    type="submit">Save and Next
+                    <i class="fa fa-angle-right ml-2"></i></button>
+                    {% else %}
+                    <button class="btn btn-primary border-success align-items-center btn-success" type="submit">Save and
+                      Next
+                      <i class="fa fa-angle-right ml-2"></i></button>
+
+                    {% endif %}
+                </div>
+              </form>
+
+
+              </div>
+              <div>
+        <form action="/submission/" method="post" id="myForm2">
+          <input type="hidden" value="{{request.session["user_id"]}}" name="student_id">
+          <input type="hidden" value="submitted" name="submitstatus">
+          <input type="hidden" value="{{qcount}}" name="totq">
+          
+
+
+                <button type="submit" id="submittest" class="btn btn-success">Submit</button>
+        </form>
+              </div>
+            </div>
+      
+      </div>
+    </div>
+    {% else %}
+    <div class="col-md-9">
+      <form action="/attempt_test/" method="post" id="myForm">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="question-number bg-white p-3 border-bottom">
+                <h3 class="text-danger">Q.{{pn}}</h3>
+                
+                <input type="hidden" value="{{qn}}" name="queno">
+                <input type="hidden" value="{{qn}}" name="queattempt_id">
+                <input type="hidden" value="{{request.session["user_id"]}}" name="student_id">
+                <input type="hidden" value="{{request.session["sub_id"]}}" name="sname_id">
+
+
+              </div>
+            </div>
+            <div class="col-md-10">
+              <div class="question bg-white p-3 border-bottom">
+                <div class="d-flex flex-row align-items-center question-title">
+                  <h5 class="mt-1">{{qu}}</h5>
+                </div>
+
+                <div class="ans ml-2">
+                  <label class="radio"> <input type="radio" name="ans" value="{{o1}}" onclick="uncheckOthers(this)" {% if aid.ans == o1 %}checked{% endif %}>
+                    <span>{{o1}}</span>
+                  </label>
+                </div>
+                <div class="ans ml-2">
+                  <label class="radio"> <input type="radio" name="ans" value="{{o2}}" onclick="uncheckOthers(this)"{% if aid.ans == o2 %}checked{% endif %}>
+                    <span>{{o2}}</span>
+                  </label>
+                </div>
+                <div class="ans ml-2">
+                  <label class="radio"> <input type="radio" name="ans" value="{{o3}}" onclick="uncheckOthers(this)"{% if aid.ans == o3 %}checked{% endif %}>
+                    <span>{{o3}}</span>
+                  </label>
+                </div>
+                <div class="ans ml-2">
+                  <label class="radio"> <input type="radio" name="ans" value="{{o4}}" onclick="uncheckOthers(this)"{% if aid.ans == o4 %}checked{% endif %}>
+                    <span>{{o4}}</span>
+                  </label>
+                  <script>
+                    function uncheckOthers(clickedRadio) {
+                      var radioButtons = document.getElementsByName("ans");
+                      for (var i = 0; i < radioButtons.length; i++) {
+                        if (radioButtons[i] !== clickedRadio) {
+                          radioButtons[i].checked = false;
+                        }
+                      }
+                    }
+                  </script>
+                </div>
+              </div>
+              <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white">
+
+                <a href="/test/{{qn+1}}"><button class="btn btn-primary border-success align-items-center btn-success"
+                  type="button">next
+                  <i class="fa fa-angle-right ml-2"></i>&nbsp;</button></a>
+
+                  <button class="btn btn-primary border-success align-items-center btn-success" type="submit">Save and
+                    Next
+                  </button>
+              </div>
+            </form>
+              <div>
+        <form action="/submission/" method="post" id="myForm2">
+          
+          <input type="hidden" value="{{request.session["user_id"]}}" name="student_id">
+          <input type="hidden" value="submitted" name="submitstatus">
+          <input type="hidden" value="{{qcount}}" name="totq">
+
+
+
+           <button type="submit" id="submittest" class="btn btn-success">Submit</button>
+        </form>
+              </div>
+            </div>
+          </div>
+    
+    </div>
+
+    {% endif %}
+
+    <script>
+      $(document).ready(function() {
+        $("#myForm").submit(function(event) {
+          event.preventDefault(); // prevent default form submission
+          if ($('input[name="ans"]:checked').length > 0) {
+            // submit the form if a radio button is checked
+            $(this).unbind('submit').submit();
+          } else {
+            // show an alert message if no radio button is checked
+            alert("Please select an option");
+          }
+        });
+      });
+    </script>
+
+    <script>
+      var countDownDate = localStorage.getItem("countdownEndTime");
+      if (!countDownDate) {
+        // If countdown end time is not stored, set it to 100 minutes from now
+        countDownDate = new Date().getTime() + (2 * 60 * 1000);
+        localStorage.setItem("countdownEndTime", countDownDate);
+      } else {
+        countDownDate = new Date(parseInt(countDownDate));
+      }
+      // Update the timer every second
+      var x = setInterval(function () {
+        // Get the current time
+        var now = new Date().getTime();
+        // Calculate the time remaining
+        var distance = countDownDate - now;
+        // Convert the distance to minutes and seconds
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        // Display the time remaining
+        document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
+        // If the timer runs out, submit the form and stop the timer
+        if (distance < 0) {
+          clearInterval(x);
+          alert("Time's up!");
+          document.getElementById("myForm2").submit(); // Replace "myForm" with the ID of your form
+          // Remove the countdown end time from localStorage
+          localStorage.removeItem("countdownEndTime");
+        }
+      }, 1000);
+    </script>
+    
+    
+    
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+​
+<html lang="en">
+​
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="robots" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GetSkills  : GetSkills Online Learning Admin Bootstrap 5 Template" />
+    <meta property="og:title" content="GetSkills  : GetSkills Online Learning  Admin Bootstrap 5 Template" />
+    <meta property="og:description" content="GetSkills  : GetSkills Online Learning  Admin Bootstrap 5 Template" />
+    <meta property="og:image" content="https://getskills.dexignzone.com/xhtml/social-image.png" />
+    <meta name="format-detection" content="telephone=no">
+    <!-- PAGE TITLE HERE -->
+    <title>Nirlip Sports and Fitness Hub</title>
+    <!-- FAVICONS ICON -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Datatable -->
+    <link href="../static/vendor2/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../static/images/favicon.png" />
+    <link href="../static/vendor2/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+    <link href="../static/vendor2/swiper/css/swiper-bundle.min.css" rel="stylesheet">
+    <!-- Style css -->
+    <link href="../static/css2/style.css" rel="stylesheet">
+</head>
+​
+
+<body style="background-color:#e6b681;">
+        ​
+        <div class="" style="margin-top: 50px;">
+            <div class="card rounded-3 effect2">
+
+                <div class="card-header">
+
+                    <h4 class="card-title">
+                        Your Rank according to the Result</h4>
+                </div>
+                <table class="table table-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Total Questions</th>
+                        <th scope="col">Attepmt Questions</th>
+                        <th scope="col">correct answer</th>
+                        <th scope="col">percetages</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for a in sorted_rank  %}
+                      
+                      <tr>
+                        
+                        <th scope="row">1</th>
+                        <td>{{a.name}}</td>
+                        <td>{{a.totq}}</td>
+                        <td>{{a.attempt}}</td>
+                        <td>{{a.currectans}}</td>
+                        <td>{{a.percentage}}%</td>
+                        
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        <a href="/dashboard/"><button class="btn btn-success">go to home</button></a>
+</body>
+​
+
+</html>
