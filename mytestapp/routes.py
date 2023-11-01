@@ -334,5 +334,3 @@ async def read_item(request: Request):
     for v in vis:
         quevis.append(v.quevisited_id)
     return templates.TemplateResponse("test.html", {"request": request,"abc":abc,"qu":qu,"o1":o1,"o2":o2,"o3":o3,"o4":o4,"qn":qn,"pn":pn,"att":att,"qcount":qcount,"quenol":quenol,"quevis":quevis,"aid":aid})
-
-#Ak123#
